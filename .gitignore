@@ -14,5 +14,7 @@
 bin/
 gen/
 local.properties
+out
+.readme
 
 
