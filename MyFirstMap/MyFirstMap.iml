@@ -37,6 +37,16 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
+    <orderEntry type="module" module-name="google-play-services_lib" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///Applications/AndroidSDK/adt-bundle-mac-x86_64/sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

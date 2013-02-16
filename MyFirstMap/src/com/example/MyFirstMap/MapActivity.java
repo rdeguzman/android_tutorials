@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +21,8 @@ public class MapActivity extends Activity implements LocationListener{
     private TextView mLocationTextView;
     private TextView mAddressTextView;
     private boolean mIsReverseGeocoding = false;
+
+    private GoogleMap map;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -41,6 +45,8 @@ public class MapActivity extends Activity implements LocationListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_layout);
+
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mProvider = LocationManager.GPS_PROVIDER;
@@ -124,6 +130,7 @@ public class MapActivity extends Activity implements LocationListener{
                 mAddressTextView.setText(result);
             }
 
+            mIsReverseGeocoding = false;
         }
 
     }
