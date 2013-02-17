@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -57,6 +58,7 @@ public class MapActivity extends Activity implements LocationListener{
         setContentView(R.layout.map_layout);
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        map.setMyLocationEnabled(true);
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mProvider = LocationManager.GPS_PROVIDER;
