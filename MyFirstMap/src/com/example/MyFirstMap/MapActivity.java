@@ -7,8 +7,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,10 +28,15 @@ public class MapActivity extends Activity implements LocationListener{
     private boolean mIsReverseGeocoding = false;
 
     private GoogleMap map;
+    private Marker marker;
 
     @Override
     public void onLocationChanged(Location location) {
         updateLocationView(location);
+        if(marker != null){
+            LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+            marker.setPosition(pos);
+        }
     }
 
     @Override
@@ -52,8 +62,17 @@ public class MapActivity extends Activity implements LocationListener{
         mProvider = LocationManager.GPS_PROVIDER;
         mLocationTextView = (TextView)findViewById(R.id.location);
         mAddressTextView = (TextView)findViewById(R.id.address);
+
         Location location = mLocationManager.getLastKnownLocation(mProvider);
         updateLocationView(location);
+
+        if(map != null){
+            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+            marker = map.addMarker(new MarkerOptions().position(pos));
+
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 20));
+        }
     }
 
     private void updateLocationView(Location location){
