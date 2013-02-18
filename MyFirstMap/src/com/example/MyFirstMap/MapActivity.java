@@ -56,6 +56,8 @@ public class MapActivity extends Activity implements LocationListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_layout);
 
+        boolean gps_enabled, network_enabled;
+
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         map.setMyLocationEnabled(true);
 
@@ -64,15 +66,23 @@ public class MapActivity extends Activity implements LocationListener{
         mLocationTextView = (TextView)findViewById(R.id.location);
         mAddressTextView = (TextView)findViewById(R.id.address);
 
-        Location location = mLocationManager.getLastKnownLocation(mProvider);
-        updateLocationView(location);
+        gps_enabled = mLocationManager.isProviderEnabled(mProvider);
+        network_enabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if(map != null){
-            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-            LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
-            marker = map.addMarker(new MarkerOptions().position(pos));
+        if(gps_enabled && network_enabled){
+            Location location = mLocationManager.getLastKnownLocation(mProvider);
+            updateLocationView(location);
 
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 20));
+            if(map != null){
+                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+                marker = map.addMarker(new MarkerOptions().position(pos));
+
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 20));
+            }
+        }
+        else{
+            mLocationTextView.setText("Enable Location Access");
         }
     }
 
