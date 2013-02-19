@@ -21,6 +21,7 @@ import java.util.Locale;
 
 public class MapActivity extends Activity implements LocationListener{
 
+    private static final LatLng AUSTRALIA = new LatLng(-25, 135);
     private LocationManager mLocationManager;
     private String mProvider;
     private TextView mLocationTextView;
@@ -59,7 +60,7 @@ public class MapActivity extends Activity implements LocationListener{
         boolean gps_enabled, network_enabled;
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(AUSTRALIA, 3));
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mProvider = LocationManager.GPS_PROVIDER;
@@ -70,13 +71,16 @@ public class MapActivity extends Activity implements LocationListener{
         network_enabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         if(gps_enabled && network_enabled){
+            map.setMyLocationEnabled(true);
+
             Location location = mLocationManager.getLastKnownLocation(mProvider);
             updateLocationView(location);
 
             if(map != null){
                 map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
-                marker = map.addMarker(new MarkerOptions().position(pos));
+                MarkerOptions markerOptions = new MarkerOptions().position(pos);
+                marker = map.addMarker(markerOptions);
 
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 20));
             }
