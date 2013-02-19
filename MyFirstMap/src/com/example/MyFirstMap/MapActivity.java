@@ -145,7 +145,14 @@ public class MapActivity extends Activity implements LocationListener{
 
             if(addresses != null && !addresses.isEmpty()){
                 Address address = addresses.get(0);
-                return address.getLocality();
+
+                // Format the first line of address (if available), city, and country name.
+                String addressText = String.format("%s, %s, %s",
+                        address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
+                        address.getLocality(),
+                        address.getCountryName());
+
+                return addressText;
             }
 
             return null;
