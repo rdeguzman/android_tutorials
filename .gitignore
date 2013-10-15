@@ -5,7 +5,8 @@
 .lock
 
 #Android
-.idea
+.idea/workspace.xml
+.idea/tasks.xml
 .metadata
 *.class
 *.apk
@@ -16,5 +17,3 @@ gen/
 local.properties
 out
 .readme
-
-
